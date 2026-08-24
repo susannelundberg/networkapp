@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/NetworkApp.Api/">
+    <Project Path="src/NetworkApp.Api/NetworkApp.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/NetworkApp.Application/">
+    <Project Path="src/NetworkApp.Application/NetworkApp.Application.csproj" />
+  </Folder>
+  <Folder Name="/src/NetworkApp.Domain/">
+    <Project Path="src/NetworkApp.Domain/NetworkApp.Domain.csproj" />
+  </Folder>
+  <Folder Name="/src/NetworkApp.Infrastructure/">
+    <Project Path="src/NetworkApp.Infrastructure/NetworkApp.Infrastructure.csproj" />
+  </Folder>
+</Solution>
