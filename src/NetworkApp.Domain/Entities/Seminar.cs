@@ -1,4 +1,6 @@
-﻿namespace NetworkApp.Domain;
+﻿using NetworkApp.Domain.Entities;
+
+namespace NetworkApp.Domain;
 
 public class Seminar
 {

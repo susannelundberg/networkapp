@@ -1,28 +1,18 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using NetworkApp.Application;
 using NetworkApp.Domain;
 using NetworkApp.Infrastructure.Data;
 
-namespace NetworkApp.Api;
+namespace NetworkApp.Api.Controllers;
 
+    [Authorize]
     [Route("api/user")]
     [ApiController]
     public class UserController(AppDbContext context) : ControllerBase
     {
-        [HttpPost()]
-        public async Task<ActionResult> RegisterUser (User user)
-    {
-        User user1 = new()
-        {
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Email = user.Email
-        };
-
-        context.Users.Add(user1);
-        await context.SaveChangesAsync();
-        return Ok("Ny användare tillagd");
-    }
+       
     }
 
 
