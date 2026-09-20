@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using NetworkApp.Application;
+using NetworkApp.Application.Interfaces;
 using NetworkApp.Domain.Entities;
 
 namespace NetworkApp.Infrastructure;

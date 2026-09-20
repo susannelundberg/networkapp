@@ -1,7 +1,7 @@
 ﻿using NetworkApp.Domain;
 using NetworkApp.Domain.Entities;
 
-namespace NetworkApp.Application;
+namespace NetworkApp.Application.Interfaces;
 
 public interface ITokenService
 {

@@ -2,8 +2,11 @@ using NetworkApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using NetworkApp.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using NetworkApp.Application;
+using NetworkApp.Application.Interfaces;
 using NetworkApp.Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +28,32 @@ builder.Services.AddIdentity<User, IdentityRole>()
                 .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<ITokenService, TokenService>();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("tokenSettings:tokenKey").Value))
+    };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            Console.WriteLine($"AUTH FAILED: {context.Exception.Message}");
+            return Task.CompletedTask;
+        }
+    };
+});
 
 var app = builder.Build();
 
@@ -78,6 +107,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

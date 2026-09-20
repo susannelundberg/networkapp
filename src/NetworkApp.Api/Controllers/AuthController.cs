@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NetworkApp.Application;
-using NetworkApp.Domain;
+using NetworkApp.Application.Interfaces;
 using NetworkApp.Domain.Entities;
-using NetworkApp.Infrastructure;
 using NetworkApp.Infrastructure.Data;
 
 namespace NetworkApp.Api;
@@ -41,10 +40,8 @@ public class AuthController(AppDbContext context, UserManager<User> userManager,
             }
 
             await userManager.AddToRoleAsync(user, "User");
-
-            var token = await tokenService.CreateToken(user);
-
-            return StatusCode(201, new {user.Email, token});
+            
+            return StatusCode(201, new{Success = true, message = $"Du har nu skapat ett konto för {user.Email}"});
         }
         catch (Exception ex)
         {
@@ -54,7 +51,8 @@ public class AuthController(AppDbContext context, UserManager<User> userManager,
     }
 
     [AllowAnonymous]
-    [HttpPost("login")]
+    // [HttpPost("login")] KOLLA PÅ DETTA
+    [Route("api/login")]
     public async Task<ActionResult> LoginUser (LoginUserDto model)
     {
         var user = await userManager.FindByNameAsync(model.Email);
@@ -67,5 +65,11 @@ public class AuthController(AppDbContext context, UserManager<User> userManager,
         var token = await tokenService.CreateToken(user);
 
         return Ok(new {Success = true, user.Email, token });
+    }
+
+    [HttpPost("test")]
+    public async Task<ActionResult> Test ()
+    {
+        return Ok(new {Sucess = true, message = "Det funkade"});
     }
 }
